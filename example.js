@@ -13,67 +13,71 @@ const redisOptions = {
 }
 
 const createQueue3 = (name) => new Queue3(name, { redis: redisOptions })
-const createQueueMQ = (name) => new QueueMQ(name, { connection: redisOptions })
 
-const run = async () => {
-  const exampleBullName = 'ExampleBull'
-  const exampleBull = createQueue3(exampleBullName)
-  const exampleBullMqName = 'ExampleBullMQ'
-  const exampleBullMq = createQueueMQ(exampleBullMqName)
+const exampleBullName = 'create'
+const exampleBull = createQueue3(exampleBullName)
 
-  setQueues([new BullMQAdapter(exampleBullMq)])
+setQueues([new BullMQAdapter(exampleBull)])
 
-  exampleBull.process(async (job) => {
-    for (let i = 0; i <= 100; i++) {
-      await sleep(Math.random())
-      job.progress(i)
-      if (Math.random() * 200 < 1) throw new Error(`Random error ${i}`)
-    }
+// const run = async () => {
+//   const exampleBullName = 'create'
+//   const exampleBull = createQueue3(exampleBullName)
+//   const exampleBullMqName2 = 'delete'
+//   const exampleBullMq = createQueueMQ(exampleBullMqName2)
 
-    return { jobId: `This is the return value of job (${job.id})` }
-  })
+//   setQueues([new BullMQAdapter(exampleBull), new BullMQAdapter(exampleBullMq)])
 
-  const queueScheduler = new QueueScheduler(exampleBullMqName, {
-    connection: redisOptions,
-  })
-  await queueScheduler.waitUntilReady()
+//   exampleBull.process(async (job) => {
+//     for (let i = 0; i <= 100; i++) {
+//       await sleep(Math.random())
+//       job.progress(i)
+//       if (Math.random() * 200 < 1) throw new Error(`Random error ${i}`)
+//     }
 
-  new Worker(exampleBullMqName, async (job) => {
-    for (let i = 0; i <= 100; i++) {
-      await sleep(Math.random())
-      await job.updateProgress(i)
+//     return { jobId: `This is the return value of job (${job.id})` }
+//   })
 
-      if (Math.random() * 200 < 1) throw new Error(`Random error ${i}`)
-    }
+//   const queueScheduler = new QueueScheduler(exampleBullMqName, {
+//     connection: redisOptions,
+//   })
+//   await queueScheduler.waitUntilReady()
 
-    return { jobId: `This is the return value of job (${job.id})` }
-  })
+//   new Worker(exampleBullMqName, async (job) => {
+//     for (let i = 0; i <= 100; i++) {
+//       await sleep(Math.random())
+//       await job.updateProgress(i)
 
-  app.use('/add', (req, res) => {
-    const opts = req.query.opts || {}
+//       if (Math.random() * 200 < 1) throw new Error(`Random error ${i}`)
+//     }
 
-    if (opts.delay) {
-      opts.delay = +opts.delay * 1000 // delay must be a number
-    }
+//     return { jobId: `This is the return value of job (${job.id})` }
+//   })
 
-    exampleBull.add({ title: req.query.title }, opts)
-    exampleBullMq.add('Add', { title: req.query.title }, opts)
+//   app.use('/add', (req, res) => {
+//     const opts = req.query.opts || {}
 
-    res.json({
-      ok: true,
-    })
-  })
+//     if (opts.delay) {
+//       opts.delay = +opts.delay * 1000 // delay must be a number
+//     }
 
-  app.use('/ui', router)
-  app.listen(3000, () => {
-    console.log('Running on 3000...')
-    console.log('For the UI, open http://localhost:3000/ui')
-    console.log('Make sure Redis is running on port 6379 by default')
-    console.log('To populate the queue, run:')
-    console.log('  curl http://localhost:3000/add?title=Example')
-    console.log('To populate the queue with custom options (opts), run:')
-    console.log('  curl http://localhost:3000/add?title=Test&opts[delay]=10')
-  })
-}
+//     exampleBull.add({ title: req.query.title }, opts)
+//     exampleBullMq.add('Add', { title: req.query.title }, opts)
 
-run()
+//     res.json({
+//       ok: true,
+//     })
+//   })
+
+app.use('/ui', router)
+app.listen(3000, () => {
+  console.log('Running on 3000...')
+  console.log('For the UI, open http://localhost:3000/ui')
+  console.log('Make sure Redis is running on port 6379 by default')
+  console.log('To populate the queue, run:')
+  console.log('  curl http://localhost:3000/add?title=Example')
+  console.log('To populate the queue with custom options (opts), run:')
+  console.log('  curl http://localhost:3000/add?title=Test&opts[delay]=10')
+})
+// }
+
+// run()
