@@ -86,6 +86,11 @@ export interface AppQueue {
   readOnlyMode: boolean
 }
 
+export interface AppChart {
+  name: string
+  readOnlyMode: boolean
+}
+
 export type SelectedStatuses = Record<AppQueue['name'], Status>
 
 export interface QueueActions {

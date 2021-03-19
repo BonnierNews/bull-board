@@ -11,6 +11,10 @@ const Menu = ({ queues }) => (react_1.default.createElement("aside", { className
     react_1.default.createElement("div", null, "QUEUES"),
     react_1.default.createElement("nav", null, !!queues && (react_1.default.createElement("ul", { className: Menu_module_css_1.default.menu }, queues.map((queueName) => (react_1.default.createElement("li", { key: queueName },
         react_1.default.createElement(react_router_dom_1.NavLink, { to: `/queue/${queueName}`, activeClassName: Menu_module_css_1.default.active, title: queueName }, queueName))))))),
-    react_1.default.createElement("div", { className: Menu_module_css_1.default.appVersion }, process.env.APP_VERSION)));
+    react_1.default.createElement("div", null, "CHARTS"),
+    react_1.default.createElement("nav", null, !!queues && (react_1.default.createElement("ul", { className: Menu_module_css_1.default.menu }, queues.map((queueName) => (react_1.default.createElement("li", { key: queueName },
+        react_1.default.createElement(react_router_dom_1.NavLink, { to: `/chart/${queueName}`, 
+            // activeClassName={s.active}
+            title: queueName }, queueName)))))))));
 exports.Menu = Menu;
 //# sourceMappingURL=Menu.js.map

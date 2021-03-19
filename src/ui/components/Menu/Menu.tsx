@@ -2,7 +2,10 @@ import React from 'react'
 import s from './Menu.module.css'
 import { NavLink } from 'react-router-dom'
 
-export const Menu = ({ queues }: { queues: string[] | undefined }, { charts }: { charts: string[] | undefined }) => (
+export const Menu = (
+  { queues }: { queues: string[] | undefined },
+  // { charts }: { charts: string[] | undefined }
+) => (
   <aside className={s.aside}>
     <div>QUEUES</div>
     <nav>
@@ -24,16 +27,16 @@ export const Menu = ({ queues }: { queues: string[] | undefined }, { charts }: {
     </nav>
     <div>CHARTS</div>
     <nav>
-    {!!charts && (
+    {!!queues && (
         <ul className={s.menu}>
-          {charts.map((chartName) => (
-            <li key={chartName}>
+          {queues.map((queueName) => (
+            <li key={queueName}>
               <NavLink
-                to={`/chart/${chartName}`}
+                to={`/chart/${queueName}`}
                 // activeClassName={s.active}
-                title={chartName}
+                title={queueName}
               >
-                {chartName}
+                {queueName}
               </NavLink>
             </li>
           ))}

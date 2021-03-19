@@ -7,6 +7,7 @@ import { useStore } from '../hooks/useStore'
 import { Menu } from './Menu/Menu'
 import { QueuePage } from './QueuePage/QueuePage'
 import { RedisStats } from './RedisStats/RedisStats'
+import { ChartPage } from './ChartPage/ChartPage'
 
 export const App = ({ basePath, api }: { basePath: string; api: Api }) => {
   const { state, actions, selectedStatuses } = useStore(api)
@@ -34,6 +35,22 @@ export const App = ({ basePath, api }: { basePath: string; api: Api }) => {
                       queue={queue}
                       actions={actions}
                       selectedStatus={selectedStatuses}
+                    />
+                  )
+                }}
+              />
+              <Route
+                path="/chart/:name"
+                render={({ match: { params } }) => {
+                  const queue = state.data?.queues.find(
+                    (q) => q.name === params.name,
+                  )
+
+                  return (
+                    <ChartPage
+                      chart={queue}
+                      actions={actions}
+                      //selectedStatus={selectedStatuses}
                     />
                   )
                 }}

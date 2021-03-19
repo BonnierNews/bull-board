@@ -4,3 +4,7 @@ yarn-error.log
 website/build
 docker-compose.dockest-generated.yml
 dockest-error.json
+main.*.js
+vendor.*.js
+main.*.json
+vendor.*.json

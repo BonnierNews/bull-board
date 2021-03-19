@@ -55,6 +55,10 @@ export interface AppQueue {
     jobs: AppJob[];
     readOnlyMode: boolean;
 }
+export interface AppChart {
+    name: string;
+    readOnlyMode: boolean;
+}
 export declare type SelectedStatuses = Record<AppQueue['name'], Status>;
 export interface QueueActions {
     promoteJob: (queueName: string) => (job: AppJob) => () => Promise<void>;
